@@ -12,6 +12,7 @@ public class Import {
 			System.out.println(n1 + 2);
 		else
 			System.out.println(n1);
+		in.close();
 	}
-
+	
 }
