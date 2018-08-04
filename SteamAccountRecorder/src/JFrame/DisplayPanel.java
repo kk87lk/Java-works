@@ -14,7 +14,7 @@ public class DisplayPanel {
     void creatMainWindow() {
         JFrame mainWindow = new JFrame("SteamAccountRecorder");
         Container cp = mainWindow.getContentPane();
-        cp.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 20));
+        cp.setLayout(new GridLayout(10,5);
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JButton buttonExit = new JButton("Exit");
