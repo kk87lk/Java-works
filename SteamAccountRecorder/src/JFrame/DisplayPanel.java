@@ -1,7 +1,7 @@
 package JFrame;
 
 import java.awt.Container;
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,7 +14,7 @@ public class DisplayPanel {
     void creatMainWindow() {
         JFrame mainWindow = new JFrame("SteamAccountRecorder");
         Container cp = mainWindow.getContentPane();
-        cp.setLayout(new GridLayout(10,5);
+        cp.setLayout(new GridLayout(3, 5, 5, 3));
         JPanel panel1 = new JPanel();
         JPanel panel2 = new JPanel();
         JButton buttonExit = new JButton("Exit");
