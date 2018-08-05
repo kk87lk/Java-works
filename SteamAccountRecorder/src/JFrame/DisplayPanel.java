@@ -1,34 +1,43 @@
 package JFrame;
 
 import java.awt.Container;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class DisplayPanel {
 
     void creatMainWindow() {
+        // define the labels,buttons&container
         JFrame mainWindow = new JFrame("SteamAccountRecorder");
+        JLabel account = new JLabel("Account");
+        JLabel wins = new JLabel("Wins");
+        JLabel coolDown = new JLabel("CoolDown");
+        JLabel copyLabel = new JLabel("Copy");
+        JTextField inputNewAccount = new JTextField(10);
+        JButton save = (new JButton("Save"));
         Container cp = mainWindow.getContentPane();
-        cp.setLayout(new GridLayout(3, 5, 5, 3));
-        JPanel panel1 = new JPanel();
-        JPanel panel2 = new JPanel();
-        JButton buttonExit = new JButton("Exit");
-        panel1.add(buttonExit);
-        JButton buttonExit1 = new JButton("Exit1");
-        panel2.add(buttonExit1);
-        buttonExit.setSize(50, 25);
-        buttonExit.setLocation(50, 50);
-        mainWindow.getContentPane().add(buttonExit);
-        buttonExit.addActionListener(new Handler());
-        buttonExit1.setSize(50, 25);
-        buttonExit1.setLocation(200, 50);
+        cp.setLayout(null);
+        // Location
+        account.setBounds(0, 0, 100, 20);
+        wins.setBounds(100, 0, 100, 20);
+        coolDown.setBounds(200, 0, 100, 20);
+        copyLabel.setBounds(300, 0, 100, 20);
+        save.setBounds(300, 230, 80, 20);
+        // add to Container
+        cp.add(account);
+        cp.add(wins);
+        cp.add(coolDown);
+        cp.add(copyLabel);
+        cp.add(save);
+        // set the JFrame's form
         mainWindow.setSize(400, 300);
         mainWindow.setVisible(true);
+        mainWindow.setDefaultCloseOperation(mainWindow.EXIT_ON_CLOSE);
     }
 }
 
