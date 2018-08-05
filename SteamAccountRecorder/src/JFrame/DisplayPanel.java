@@ -1,8 +1,6 @@
 package JFrame;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +18,8 @@ public class DisplayPanel {
         JLabel copyLabel = new JLabel("Copy");
         JTextField inputNewAccount = new JTextField(10);
         JButton save = (new JButton("Save"));
+        JButton copy = (new JButton("Copy"));
+        JButton creat = (new JButton("Creat"));
         Container cp = mainWindow.getContentPane();
         cp.setLayout(null);
         // Location
@@ -38,13 +38,5 @@ public class DisplayPanel {
         mainWindow.setSize(400, 300);
         mainWindow.setVisible(true);
         mainWindow.setDefaultCloseOperation(mainWindow.EXIT_ON_CLOSE);
-    }
-}
-
-class Handler implements ActionListener {
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        System.exit(0);
     }
 }
