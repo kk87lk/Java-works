@@ -1,5 +1,11 @@
 package JFrame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Operation {
+public class Handler implements ActionListener {
+
+    public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+    }
 }
