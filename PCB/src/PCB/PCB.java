@@ -80,6 +80,24 @@ public class PCB {
 	}
 	
 	void Suspend(int input_pid) {
-		
+		PCBUnit Head_wait = Head_wait_static;
+		PCBUnit Head_ready = Head_ready_static;
+		PCBUnit frontProcess = new PCBUnit(0, 0);
+		for(;Head_ready.next != null;Head_ready = Head_ready.next) {
+			if(Head_ready.pid == input_pid)
+				break;
+			frontProcess = Head_ready;
+		}
+		PCBUnit activedProcess = Head_ready;
+		if(Head_ready == null) {
+			System.out.println("Invalid pid!");
+			return;
+		} else {
+			frontProcess.next = activedProcess.next;
+			while(Head_wait.next != null)
+				Head_wait = Head_wait.next;
+			Head_wait.next = activedProcess;
+			activedProcess.next = null;
+		}
 	}
 }
