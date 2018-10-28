@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 class PCBUnit {
 
-    public int pid = 0;
+    int pid = 0;
 
-    public int uid = 0;
+    int uid = 0;
 
     // public int processStatus = (Integer) null;// 0:running 1:ready 2£ºsuspend
     // 3:active-suspend
@@ -57,13 +57,13 @@ public class PCB {
         }
     }
 
-    void Create() {
+    void Create(int pid, int uid) {
         PCBUnit Head_wait = Head_wait_static;
-        Scanner input = new Scanner(System.in);
+//        Scanner input = new Scanner(System.in);
         while (Head_wait.next != null)
             Head_wait = Head_wait.next;
-        System.out.print("Input the pid & uid:");
-        PCBUnit newUnit = new PCBUnit(input.nextInt(), input.nextInt());
+//        System.out.print("Input the pid & uid:");
+        PCBUnit newUnit = new PCBUnit(pid, uid);
         Head_wait.next = newUnit;
     }
 
@@ -168,4 +168,5 @@ public class PCB {
         }
         }
     }
+
 }

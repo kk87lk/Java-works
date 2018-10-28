@@ -6,8 +6,8 @@ public class Demo {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
-        // PCBui unit = new PCBui();
         PCB pcb = new PCB();
+        PCBui unit = new PCBui(pcb);
         Scanner select = new Scanner(System.in);
         int num = 7;
         while (num != 0) {
@@ -20,7 +20,6 @@ public class Demo {
             num = select.nextInt();
             switch (num) {
             case 1:
-                pcb.Create();
                 break;
             case 2:
                 System.out.print("Input the pid:");
