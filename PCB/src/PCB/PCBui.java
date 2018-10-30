@@ -140,7 +140,64 @@ public class PCBui {
 			}
 		});
 		JButton activeProcess = new JButton("激活进程");
+		activeProcess.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JDialog activeWindow = new JDialog(mainWindow);
+				JLabel activeLabel = new JLabel("PID:");
+				JTextField pidText = new JTextField(10);
+				JButton confirm = new JButton("确认");
+				confirm.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						if(pidText.getText().length() != 0) {
+							pcb.Active(Integer.parseInt(pidText.getText()));
+							activeWindow.setVisible(false);
+							mainWindow.setEnabled(true);
+							mainWindow.setVisible(true);
+						} else {
+							JDialog errorWindow = new JDialog(activeWindow,"Error");
+							JButton confirm = new JButton("无效的输入!");
+							confirm.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									errorWindow.setVisible(false);
+									activeWindow.setEnabled(true);
+									mainWindow.setVisible(true);
+									activeWindow.setVisible(true);
+								}
+							});
+							errorWindow.setBounds(250, 250, 120, 60);
+							errorWindow.add(confirm);
+							errorWindow.setDefaultCloseOperation(errorWindow.DO_NOTHING_ON_CLOSE);
+							activeWindow.setEnabled(false);
+							errorWindow.setVisible(true);
+						}
+					}
+				});
+				JButton cancel = new JButton("取消");
+				cancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						activeWindow.setVisible(false);
+						mainWindow.setEnabled(true);
+						mainWindow.setVisible(true);
+					}
+				});
+				activeWindow.setBounds(200, 200, 400, 200);
+				activeWindow.setLayout(new FlowLayout(FlowLayout.LEFT, 100, 50));
+				activeWindow.add(activeLabel);
+				activeWindow.add(pidText);
+				activeWindow.add(confirm);
+				activeWindow.add(cancel);
+				activeWindow.setDefaultCloseOperation(activeWindow.DO_NOTHING_ON_CLOSE);
+				mainWindow.setEnabled(false);
+				activeWindow.setVisible(true);
+			}
+		});
 		JButton killProcess = new JButton("终止进程");
+		JButton deleteProcess = new JButton("删除进程");
 		Panel operationPanel = new Panel();
 		FlowLayout flowLayout = new FlowLayout(FlowLayout.LEFT,20,20);
 		Container cp = mainWindow.getContentPane();
