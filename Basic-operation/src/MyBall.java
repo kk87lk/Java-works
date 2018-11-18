@@ -28,7 +28,8 @@ class MyPanel extends Panel implements Runnable,MouseListener,MouseMotionListene
 		}	
 	public void paint(Graphics g){		
 		g.fillOval(x,y,20,20);//小球坐标控制小球出现位置		
-		g.setColor(Color.RED);		//分别显示鼠标坐标和小球坐标		
+		g.setColor(Color.RED);		//分别显示鼠标坐标和小球坐标	
+		g.drawLine(0, 0, mx, my);
 		g.drawString("Mouse   X: "+mx+" Y: "+my,5,15);		
 		g.drawString("Ball  X: "+x+" Y: "+y,5,25);		
 		if(markM){			
