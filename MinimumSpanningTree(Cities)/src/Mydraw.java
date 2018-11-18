@@ -1,7 +1,8 @@
-import javax.swing.JPanel;
+import java.awt.Graphics;
 
-public class Mydraw {
+public class Mydraw extends Graphics{
 
-    public void drawCityUnit(JPanel panel, int x, int y) {
+    public void drawCityUnit(Mypanel panel, int x, int y) {
+    	
     }
 }
