@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.RuntimeUtil.ToStringAdapter;
-
 public class Patient {
 	private String name;
 	private char sex;
