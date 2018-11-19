@@ -1,14 +1,15 @@
 
 
 public class CityGroup {
-	private CityUnit[] CityNo = null;
+	private CityUnit[] cityUnits = null;
 	private int[][] connect = {{0}};
+	private int count = 0;
 	
-	public void setCityNo(CityUnit[] cityNo) {
-		CityNo = cityNo;
+	public void setCityUnits(CityUnit[] cityUnits) {
+		this.cityUnits = cityUnits;
 	}
-	public CityUnit[] getCityNo() {
-		return CityNo;
+	public CityUnit[] getCityUnits() {
+		return cityUnits;
 	}
 	public void setConnect(int[][] connect) {
 		this.connect = connect;
@@ -16,12 +17,17 @@ public class CityGroup {
 	public int[][] getConnect() {
 		return connect;
 	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public int getCount() {
+		return count;
+	}
 }
 
 class CityUnit {
 	private String cityName = "Undefined";
 	private int cityNo = 0;
-	private int count = 0;
 	
 	public void setCityName(String cityName) {
 		this.cityName = cityName;
@@ -34,11 +40,5 @@ class CityUnit {
 	}
 	public int getCityNo() {
 		return cityNo;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	public int getCount() {
-		return count;
 	}
 }
