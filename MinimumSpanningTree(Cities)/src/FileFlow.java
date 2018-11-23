@@ -1,14 +1,10 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 
 public class FileFlow {
 	public void writeIntoFile(CityGroup cityGroupFile) {
