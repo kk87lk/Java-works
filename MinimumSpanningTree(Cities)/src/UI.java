@@ -2,6 +2,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.ImageObserver;
+import java.text.AttributedCharacterIterator;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -105,10 +108,11 @@ public class UI {
 						int n = 0;
 						while(!cities_Data.getCityUnits()[n].getCityName().equals(cityNameField2.getText()))
 							n++;
-						System.out.println(m +" "+n);
+//						System.out.println(m +" "+n);
 						int[][] cityUnitsTemp = cities_Data.getConnect();
 						cityUnitsTemp[m][n] = Integer.parseInt(lengthOfPathField.getText());
 						cities_Data.setConnect(cityUnitsTemp);
+						pathLengthWindow.setVisible(false);
 					}
 				});
 				JButton cancel = new JButton("Cancel");
@@ -132,7 +136,28 @@ public class UI {
 			}
 		});
     	createPath.setBounds(500, 70, 120, 30);
+    	JButton writeIntoFile = new JButton("Write into file");
+    	writeIntoFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				FileFlow fileFlow = new FileFlow();
+				fileFlow.writeIntoFile(cities_Data);
+			}
+		});
+    	writeIntoFile.setBounds(500, 110, 120, 30);
+    	JButton readFromFile = new JButton("Read from file");
+    	readFromFile.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				FileFlow fileFlow = new FileFlow();
+				cities_Data = fileFlow.readFromFile();
+				graphDisplay.cityGroup = cities_Data;
+			}
+		});
+    	readFromFile.setBounds(500, 150, 120, 30);
     	cp.add(createPath);
+    	cp.add(writeIntoFile);
+    	cp.add(readFromFile);
     	cp.setBounds(0, 0, 1000, 618);
     	mainWindow.add(cp);
     	mainWindow.setLayout(null);
@@ -180,15 +205,10 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 		for(int m = 0;cityGroup.getCityUnits()[m].getX() != 0; m++) {
 			for(int n = 0;cityGroup.getCityUnits()[n].getX() != 0; n++) {
 				if(cityGroup.getConnect()[m][n] != 0) {
-//					paintCityPath(g, m, n);
-//					System.out.println("cityGroup.getCityUnits()[m].getX()"+ cityGroup.getCityUnits()[m].getX()+
-//					" " +"cityGroup.getCityUnits()[m].getY()"+cityGroup.getCityUnits()[m].getY()
-//							+ " " +"cityGroup.getCityUnits()[n].getX()"+cityGroup.getCityUnits()[n].getX()
-//					+" "+"cityGroup.getCityUnits()[n].getY()" + cityGroup.getCityUnits()[n].getY());\
-					
+//					super.paint(g);
 					g.drawString(String.valueOf(cityGroup.getConnect()[m][n]),(cityGroup.getCityUnits()[m].getX()+cityGroup.getCityUnits()[n].getX())/2 , (cityGroup.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
 					g.drawLine(cityGroup.getCityUnits()[m].getX(), cityGroup.getCityUnits()[m].getY(), cityGroup.getCityUnits()[n].getX(), cityGroup.getCityUnits()[n].getY());
-//					repaint();
+
 				}
 			}
 		}

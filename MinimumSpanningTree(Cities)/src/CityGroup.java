@@ -1,7 +1,6 @@
 
 class CityUnit {
 	private String cityName = "Undefined";
-	private int cityNo = 0;
 	private int x = 0;
 	private int y = 0;
 	
@@ -10,12 +9,6 @@ class CityUnit {
 	}
 	public String getCityName() {
 		return cityName;
-	}
-	public void setCityNo(int cityNo) {
-		this.cityNo = cityNo;
-	}
-	public int getCityNo() {
-		return cityNo;
 	}
 	public void setX(int x) {
 		this.x = x;
