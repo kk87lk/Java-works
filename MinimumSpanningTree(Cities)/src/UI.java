@@ -9,18 +9,16 @@ import java.awt.*;
 import javax.swing.*;
 
 public class UI {
-//	protected static final Graphics Graphics = null;
-	static CityUnit cities_Data = new CityUnit();
+	static CityGroup cities_Data = new CityGroup();
 	
 	public static void main(String[] args) {
-        // TODO Auto-generated method stub
-    	JFrame mainWindow = new JFrame("MinimumSpanningTree--cities");
+    	JFrame mainWindow = new JFrame("MinimumSpanningTree--cities"); //主界面
     	Mypanel graphDisplay = new Mypanel();
     	Container cp = new Container();
     	mainWindow.setSize(1000, 618);
     	graphDisplay.setBounds(0, 0, 480, 480);
     	mainWindow.add(graphDisplay);
-    	JButton createCity = new JButton("Create a city");
+    	JButton createCity = new JButton("Create a city");//创建city
     	createCity.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -55,11 +53,9 @@ public class UI {
 							errorWindow.setDefaultCloseOperation(errorWindow.DO_NOTHING_ON_CLOSE);
 							errorWindow.setVisible(true);
 						}else {
-							cities_Data.setCount(cities_Data.getCount());
-							String[] temp = cities_Data.getCityName();
-							temp[cities_Data.getCount()] = cityNameField.getText();
-							cities_Data.setCityName(temp);
-							graphDisplay.cityUnit = cities_Data;
+							String temp = cityNameField.getText();
+							cities_Data.getCityUnits()[cities_Data.getCount()].setCityName(temp);
+							graphDisplay.cityGroup = cities_Data;
 							cityNameWindow.setVisible(false);
 						}
 					}
@@ -70,6 +66,7 @@ public class UI {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
+						graphDisplay.cityUnitCreating = false;
 						cityNameWindow.setVisible(false);
 					}
 				});
@@ -83,6 +80,59 @@ public class UI {
 		});
     	createCity.setBounds(500, 30, 120, 30);
     	cp.add(createCity);
+    	JButton createPath = new JButton("Create a path");//创建path
+    	createPath.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				JDialog pathLengthWindow = new JDialog();
+				JLabel cityNameLabel = new JLabel("City's Name:");
+				JLabel cityNameLabel2 = new JLabel("City's Name:");
+				JLabel lengthOfPath = new JLabel("Length of Path:");
+				JTextField cityNameField = new JTextField(7);
+				JTextField cityNameField2 = new JTextField(7);
+				JTextField lengthOfPathField = new JTextField(5);
+				pathLengthWindow.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 25));
+				pathLengthWindow.setBounds(220, 200, 300, 250);
+				JButton confirm = new JButton("Confirm");
+				confirm.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						int m = 0;
+						while(!cities_Data.getCityUnits()[m].getCityName().equals(cityNameField.getText()))
+							m++;
+						int n = 0;
+						while(!cities_Data.getCityUnits()[n].getCityName().equals(cityNameField2.getText()))
+							n++;
+						System.out.println(m +" "+n);
+						int[][] cityUnitsTemp = cities_Data.getConnect();
+						cityUnitsTemp[m][n] = Integer.parseInt(lengthOfPathField.getText());
+						cities_Data.setConnect(cityUnitsTemp);
+					}
+				});
+				JButton cancel = new JButton("Cancel");
+				cancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						graphDisplay.cityUnitCreating = false;
+						pathLengthWindow.setVisible(false);
+					}
+				});
+				pathLengthWindow.add(cityNameLabel);
+				pathLengthWindow.add(cityNameField);
+				pathLengthWindow.add(cityNameLabel2);
+				pathLengthWindow.add(cityNameField2);
+				pathLengthWindow.add(lengthOfPath);
+				pathLengthWindow.add(lengthOfPathField);
+				pathLengthWindow.add(confirm);
+				pathLengthWindow.add(cancel);
+				pathLengthWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				pathLengthWindow.setVisible(true);
+			}
+		});
+    	createPath.setBounds(500, 70, 120, 30);
+    	cp.add(createPath);
     	cp.setBounds(0, 0, 1000, 618);
     	mainWindow.add(cp);
     	mainWindow.setLayout(null);
@@ -99,49 +149,95 @@ public class UI {
 }
 
 class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListener {
-	CityUnit cityUnit = new CityUnit();
+	CityGroup cityGroup = new CityGroup();
 	int mouseX = 0;
 	int mouseY = 0;
 	String cityName = null;
 	boolean cityUnitCreating = false;
 	
-	public void setCityUnit(CityUnit cityUnit) {
-		this.cityUnit = cityUnit;
-	}
-	
 	public void paint(Graphics g) {
 		super.paint(g);
+		paintCityUnit(g, 0);
+//		paintCityPath(g);
+		paintCityUnit_Creating(g);
+		
+//		if((mouseX >= 30 && mouseX <= 480)&&(mouseY >= 30 && mouseY <= 480))
+//			g.drawLine(30, 30, mouseX, mouseY);
+	}
+	public void paintCityUnit(Graphics g, int i) {
+		super.paint(g);
+		g.setColor(Color.BLACK);
 		g.drawString("GraphDisplayPanel", 200, 20);
 		g.drawRect(30, 30, 450, 450);
 		g.setColor(Color.white);
 		g.fillRect(30, 30, 450, 450);
 		g.setColor(Color.red);
+		while(cityGroup.getCityUnits()[i].getX() != 0) {
+			g.drawString(cityGroup.getCityUnits()[i].getCityName(), cityGroup.getCityUnits()[i].getX() - cityGroup.getCityUnits()[i].getCityName().length() * 3, cityGroup.getCityUnits()[i].getY() + 25);
+			g.fillOval(cityGroup.getCityUnits()[i].getX() - 10, cityGroup.getCityUnits()[i].getY() - 10, 20, 20);
+			i++;
+		}
+		for(int m = 0;cityGroup.getCityUnits()[m].getX() != 0; m++) {
+			for(int n = 0;cityGroup.getCityUnits()[n].getX() != 0; n++) {
+				if(cityGroup.getConnect()[m][n] != 0) {
+//					paintCityPath(g, m, n);
+//					System.out.println("cityGroup.getCityUnits()[m].getX()"+ cityGroup.getCityUnits()[m].getX()+
+//					" " +"cityGroup.getCityUnits()[m].getY()"+cityGroup.getCityUnits()[m].getY()
+//							+ " " +"cityGroup.getCityUnits()[n].getX()"+cityGroup.getCityUnits()[n].getX()
+//					+" "+"cityGroup.getCityUnits()[n].getY()" + cityGroup.getCityUnits()[n].getY());\
+					
+					g.drawString(String.valueOf(cityGroup.getConnect()[m][n]),(cityGroup.getCityUnits()[m].getX()+cityGroup.getCityUnits()[n].getX())/2 , (cityGroup.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
+					g.drawLine(cityGroup.getCityUnits()[m].getX(), cityGroup.getCityUnits()[m].getY(), cityGroup.getCityUnits()[n].getX(), cityGroup.getCityUnits()[n].getY());
+//					repaint();
+				}
+			}
+		}
+	}
+	
+	public void paintCityPath(Graphics g,int m, int n) {
+		super.paint(g);
+		g.setColor(Color.BLACK);
+		g.drawString("GraphDisplayPanel", 200, 20);
+		g.drawRect(30, 30, 450, 450);
+		g.setColor(Color.white);
+		g.fillRect(30, 30, 450, 450);
+		g.setColor(Color.red);
+		g.drawLine(cityGroup.getCityUnits()[m].getX() - 10, cityGroup.getCityUnits()[m].getY() - 10, cityGroup.getCityUnits()[n].getX() - 10, cityGroup.getCityUnits()[n].getY() - 10);
+//		while(cityGroup.getCityUnits()[i].getX() != 0) {
+//			g.drawString(cityGroup.getCityUnits()[i].getCityName(), cityGroup.getCityUnits()[i].getX() - cityGroup.getCityUnits()[i].getCityName().length() * 3, cityGroup.getCityUnits()[i].getY() + 25);
+//			g.fillOval(cityGroup.getCityUnits()[i].getX() - 10, cityGroup.getCityUnits()[i].getY() - 10, 20, 20);
+//			i++;
+//		}
+		
+	}
+
+	void paintCityUnit_Creating(Graphics g) {
 		if((cityUnitCreating)&&(mouseX>=40&&mouseX<=470)&&(mouseY>=40&&mouseY<=470)) {
-			g.drawString(cityUnit.getCityName()[cityUnit.getCount()], mouseX - cityUnit.getCityName()[cityUnit.getCount()].length() * 3, mouseY + 25);
+			g.drawString(cityGroup.getCityUnits()[cityGroup.getCount()].getCityName(), mouseX - cityGroup.getCityUnits()[cityGroup.getCount()].getCityName().length() * 3, mouseY + 25);
 			g.fillOval(mouseX - 10, mouseY - 10, 20, 20);
 		}
-//		if((mouseX >= 30 && mouseX <= 480)&&(mouseY >= 30 && mouseY <= 480))
-//			g.drawLine(30, 30, mouseX, mouseY);
 	}
+	
+	
+	
 	
 	@Override
 	public void run(){		
 		while(true){						
-			try{				
+			try{
 				Thread.sleep(20);	
-				}
+			}
 			catch(Exception e){}
 			repaint();		
-			}	
 		}	
-
+	}	
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		if((cityUnitCreating)&&(mouseX>=40&&mouseX<=470)&&(mouseY>=40&&mouseY<=470)) {
-//			g.drawString("city"+ cityNo, mouseX - 10, mouseY + 25);
-//			g.fillOval(mouseX - 10, mouseY - 10, 20, 20);
-			
+			cityGroup.getCityUnits()[cityGroup.getCount()].setX(mouseX);
+			cityGroup.getCityUnits()[cityGroup.getCount()].setY(mouseY);
+
+			cityGroup.setCount(cityGroup.getCount() + 1);
 			cityUnitCreating = false;
 		}
 	}
@@ -183,4 +279,5 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 		mouseX = e.getX();
 		mouseY = e.getY();
 	}
+
 }
