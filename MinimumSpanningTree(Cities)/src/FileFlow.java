@@ -69,7 +69,9 @@ public class FileFlow {
             	}
             }
             temp.setConnect(tempC);
-            temp.setCount(Integer.parseInt(reader.readLine()));
+            tempS = reader.readLine();
+        	String[] tempSS = tempS.split(" ");
+            temp.setCount(Integer.parseInt(tempSS[0]));
             reader.close();
             return temp;
         }catch (Exception e){

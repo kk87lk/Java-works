@@ -111,6 +111,7 @@ public class UI {
 //						System.out.println(m +" "+n);
 						int[][] cityUnitsTemp = cities_Data.getConnect();
 						cityUnitsTemp[m][n] = Integer.parseInt(lengthOfPathField.getText());
+						cityUnitsTemp[n][m] = Integer.parseInt(lengthOfPathField.getText());
 						cities_Data.setConnect(cityUnitsTemp);
 						pathLengthWindow.setVisible(false);
 					}
