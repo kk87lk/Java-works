@@ -2,8 +2,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.ImageObserver;
-import java.text.AttributedCharacterIterator;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -156,9 +154,42 @@ public class UI {
 			}
 		});
     	readFromFile.setBounds(500, 150, 120, 30);
+    	JButton prim = new JButton("Prim");
+    	prim.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Algorithm prim = new Algorithm();
+				graphDisplay.cityGroup_Prim = graphDisplay.cityGroup;
+				graphDisplay.cityGroup_Prim.setConnect(prim.prim(graphDisplay.cityGroup));
+				graphDisplay.status = 1;
+			}
+		});
+    	prim.setBounds(500, 190, 120, 30);
+    	JButton kruskal = new JButton("Kruskal");
+    	kruskal.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Algorithm kruskal = new Algorithm();
+				graphDisplay.cityGroup_Kruskal = graphDisplay.cityGroup;
+				graphDisplay.cityGroup_Kruskal.setConnect(kruskal.kruskal(graphDisplay.cityGroup));
+				graphDisplay.status = 2;
+			}
+		});
+    	kruskal.setBounds(500, 230, 120, 30);
+    	JButton reset = new JButton("Reset");
+    	reset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				graphDisplay.status = 0;
+			}
+		});
+    	reset.setBounds(500, 270, 120, 30);
     	cp.add(createPath);
     	cp.add(writeIntoFile);
     	cp.add(readFromFile);
+    	cp.add(prim);
+    	cp.add(kruskal);
+    	cp.add(reset);
     	cp.setBounds(0, 0, 1000, 618);
     	mainWindow.add(cp);
     	mainWindow.setLayout(null);
@@ -176,6 +207,9 @@ public class UI {
 
 class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListener {
 	CityGroup cityGroup = new CityGroup();
+	CityGroup cityGroup_Prim = new CityGroup();
+	CityGroup cityGroup_Kruskal = new CityGroup();
+	int status = 0;//0-normal 1-prim 2-kruskal
 	int mouseX = 0;
 	int mouseY = 0;
 	String cityName = null;
@@ -183,14 +217,10 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 	
 	public void paint(Graphics g) {
 		super.paint(g);
-		paintCityUnit(g, 0);
-//		paintCityPath(g);
+		paintCityUnit(g, 0, status);
 		paintCityUnit_Creating(g);
-		
-//		if((mouseX >= 30 && mouseX <= 480)&&(mouseY >= 30 && mouseY <= 480))
-//			g.drawLine(30, 30, mouseX, mouseY);
 	}
-	public void paintCityUnit(Graphics g, int i) {
+	public void paintCityUnit(Graphics g, int i, int status) {
 		super.paint(g);
 		g.setColor(Color.BLACK);
 		g.drawString("GraphDisplayPanel", 200, 20);
@@ -203,16 +233,45 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 			g.fillOval(cityGroup.getCityUnits()[i].getX() - 10, cityGroup.getCityUnits()[i].getY() - 10, 20, 20);
 			i++;
 		}
-		for(int m = 0;cityGroup.getCityUnits()[m].getX() != 0; m++) {
-			for(int n = 0;cityGroup.getCityUnits()[n].getX() != 0; n++) {
-				if(cityGroup.getConnect()[m][n] != 0) {
-//					super.paint(g);
-					g.drawString(String.valueOf(cityGroup.getConnect()[m][n]),(cityGroup.getCityUnits()[m].getX()+cityGroup.getCityUnits()[n].getX())/2 , (cityGroup.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
-					g.drawLine(cityGroup.getCityUnits()[m].getX(), cityGroup.getCityUnits()[m].getY(), cityGroup.getCityUnits()[n].getX(), cityGroup.getCityUnits()[n].getY());
-
+		switch(status) {
+			case 0:
+				for(int m = 0;cityGroup.getCityUnits()[m].getX() != 0; m++) {
+					for(int n = 0;cityGroup.getCityUnits()[n].getX() != 0; n++) {
+						if(cityGroup.getConnect()[m][n] != 0) {
+							g.drawString(String.valueOf(cityGroup.getConnect()[m][n]),(cityGroup.getCityUnits()[m].getX()+cityGroup.getCityUnits()[n].getX())/2 , (cityGroup.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
+							g.drawLine(cityGroup.getCityUnits()[m].getX(), cityGroup.getCityUnits()[m].getY(), cityGroup.getCityUnits()[n].getX(), cityGroup.getCityUnits()[n].getY());
+	
+						}
+					}
 				}
-			}
+			break;
+			case 1:
+				for(int m = 0;cityGroup_Prim.getCityUnits()[m].getX() != 0; m++) {
+					for(int n = 0;cityGroup_Prim.getCityUnits()[n].getX() != 0; n++) {
+						if(cityGroup_Prim.getConnect()[m][n] != 0) {
+							g.drawString(String.valueOf(cityGroup_Prim.getConnect()[m][n]),(cityGroup_Prim.getCityUnits()[m].getX()+cityGroup_Prim.getCityUnits()[n].getX())/2 , (cityGroup_Prim.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
+							g.drawLine(cityGroup_Prim.getCityUnits()[m].getX(), cityGroup_Prim.getCityUnits()[m].getY(), cityGroup_Prim.getCityUnits()[n].getX(), cityGroup_Prim.getCityUnits()[n].getY());
+	
+						}
+					}
+				}
+			
+			break;
+			case 2:
+				for(int m = 0;cityGroup_Kruskal.getCityUnits()[m].getX() != 0; m++) {
+					for(int n = 0;cityGroup_Kruskal.getCityUnits()[n].getX() != 0; n++) {
+						if(cityGroup_Kruskal.getConnect()[m][n] != 0) {
+							g.drawString(String.valueOf(cityGroup_Kruskal.getConnect()[m][n]),(cityGroup_Kruskal.getCityUnits()[m].getX()+cityGroup_Kruskal.getCityUnits()[n].getX())/2 , (cityGroup_Kruskal.getCityUnits()[m].getY()+cityGroup.getCityUnits()[n].getY())/2);
+							g.drawLine(cityGroup_Kruskal.getCityUnits()[m].getX(), cityGroup_Kruskal.getCityUnits()[m].getY(), cityGroup_Kruskal.getCityUnits()[n].getX(), cityGroup_Kruskal.getCityUnits()[n].getY());
+	
+						}
+					}
+				}
+			break;
+			default:
+				return;
 		}
+		
 	}
 	
 	public void paintCityPath(Graphics g,int m, int n) {
@@ -223,13 +282,7 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 		g.setColor(Color.white);
 		g.fillRect(30, 30, 450, 450);
 		g.setColor(Color.red);
-		g.drawLine(cityGroup.getCityUnits()[m].getX() - 10, cityGroup.getCityUnits()[m].getY() - 10, cityGroup.getCityUnits()[n].getX() - 10, cityGroup.getCityUnits()[n].getY() - 10);
-//		while(cityGroup.getCityUnits()[i].getX() != 0) {
-//			g.drawString(cityGroup.getCityUnits()[i].getCityName(), cityGroup.getCityUnits()[i].getX() - cityGroup.getCityUnits()[i].getCityName().length() * 3, cityGroup.getCityUnits()[i].getY() + 25);
-//			g.fillOval(cityGroup.getCityUnits()[i].getX() - 10, cityGroup.getCityUnits()[i].getY() - 10, 20, 20);
-//			i++;
-//		}
-		
+		g.drawLine(cityGroup.getCityUnits()[m].getX() - 10, cityGroup.getCityUnits()[m].getY() - 10, cityGroup.getCityUnits()[n].getX() - 10, cityGroup.getCityUnits()[n].getY() - 10);	
 	}
 
 	void paintCityUnit_Creating(Graphics g) {
@@ -246,7 +299,7 @@ class Mypanel extends JPanel implements MouseMotionListener,Runnable,MouseListen
 	public void run(){		
 		while(true){						
 			try{
-				Thread.sleep(20);	
+				Thread.sleep(30);
 			}
 			catch(Exception e){}
 			repaint();		

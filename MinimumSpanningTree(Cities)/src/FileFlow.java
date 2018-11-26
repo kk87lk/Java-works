@@ -50,7 +50,6 @@ public class FileFlow {
         String filename = "C:"+spr+"Data.txt";
         try {
             FileReader f = new FileReader(filename);
-//            InputStreamReader read = new InputStreamReader(new FileInputStream(f));
             BufferedReader reader = new BufferedReader(f);
             String tempS = new String();
             for(int i = 0;i<=19;i++) {
