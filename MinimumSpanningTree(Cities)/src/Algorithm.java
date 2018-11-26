@@ -121,9 +121,6 @@ public class Algorithm{
 			if(flag == cityGroup.getCount() - 1)
 				break;
 		}
-		
 		return connect_re;
 	}
-	
-	
 }

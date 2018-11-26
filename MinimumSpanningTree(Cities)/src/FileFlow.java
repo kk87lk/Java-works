@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.OutputStreamWriter;
 
-
 public class FileFlow {
 	public void writeIntoFile(CityGroup cityGroupFile) {
 		String spr = File.separator;
