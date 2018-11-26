@@ -31,7 +31,6 @@ public class CityGroup {
 	private int count = 0;
 	
 	public CityGroup() {
-		// TODO Auto-generated constructor stub
 		int x = 0;
 		while(x<=19) {
 			cityUnits[x] = new CityUnit();

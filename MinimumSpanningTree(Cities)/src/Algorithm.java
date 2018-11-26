@@ -73,7 +73,7 @@ public class Algorithm{
 		int[] unitList = new int[20];
 		for(int i = 0;i<cityGroup.getCount();i++)
 			unitList[i] = 0;//0 unchecked,1 checked
-		int i = 0, tempM = 0, tempN = 0;
+		int tempM = 0, tempN = 0;
 		unitList[0] = 1;
 		for(int count = 0;count<cityGroup.getCount() - 1;count++) {
 			int value_temp = 10000;
