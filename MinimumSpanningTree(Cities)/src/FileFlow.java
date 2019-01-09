@@ -23,7 +23,6 @@ public class FileFlow {
             		writer.write(cityGroupFile.getConnect()[i][l]+" ");
             	writer.write("\r\n");
             }
-            System.out.println(cityGroupFile.getCount());
             writer.write(cityGroupFile.getCount() + " ");
             writer.flush();  
             write.close();
