@@ -1,7 +1,7 @@
 
 public class Book {
 	private String bookName;
-	private String bookSN;
+	private int bookSN;
 	private String publisher;
 	private double price;
 	private int amount;
@@ -11,7 +11,7 @@ public class Book {
 	public int getAmount() {
 		return amount;
 	}
-	public String getBookSN() {
+	public int getBookSN() {
 		return bookSN;
 	}
 	public double getPrice() {
@@ -26,7 +26,7 @@ public class Book {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
-	public void setBookSN(String bookSN) {
+	public void setBookSN(int bookSN) {
 		this.bookSN = bookSN;
 	}
 	public void setPrice(double price) {
@@ -35,7 +35,7 @@ public class Book {
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
-	public Book(String name,String SN,String publisher,double price,int amount ) {
+	public Book(String name,int SN,String publisher,double price,int amount ) {
 		bookName = name;
 		bookSN = SN;
 		this.publisher = publisher;
