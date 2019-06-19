@@ -8,5 +8,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Darry Tsui/Desktop/beautyeye-3.6/src_all/beautyeye_v3.6_utf8/lib/ninepatch4j.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Darry Tsui/Desktop/beautyeye-3.6/dist/beautyeye_lnf.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Darry Tsui/Desktop/mysql-connector-java-5.1.39-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
