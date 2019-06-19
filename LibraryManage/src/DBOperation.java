@@ -110,8 +110,64 @@ public class DBOperation {
 			return false;
 	}
 	
+	public Object[][] getData() {
+		java.sql.Connection conn = null;
+        java.sql.Statement stmt = null;
+        int count = 0;
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            // 执行查询
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT * from book ORDER BY BookID";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next())
+                count++;
+            Object[][] info = new Object[count][7];
+            
+            count = 0;
+            rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+            	info[count][0] = Integer.valueOf(rs.getInt("BookID"));
+            	info[count][1] = rs.getString("BookISBN");
+            	info[count][2] = rs.getString("BookName");
+            	info[count][3] = rs.getString("BookAuthor");
+            	info[count][4] = rs.getString("BookPress");
+            	info[count][5] = Double.valueOf(rs.getDouble("BookPrice"));
+            	info[count][6] = Integer.valueOf(rs.getInt("BookNumber"));
+            	count++;
+            }
+            // 完成后关闭
+            rs.close();
+            stmt.close();
+            conn.close();
+            return info;
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+		return null;
+	}
 	public static void main(String[] args) {
 		DBOperation rip = new DBOperation();
-		System.out.print(rip.isCorrect("admin", "admin"));
+		rip.getData();
 	}
 }
