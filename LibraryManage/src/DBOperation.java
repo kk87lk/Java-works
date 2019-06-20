@@ -28,8 +28,7 @@ public class DBOperation {
             while(rs.next()){
                 // 通过字段检索
                 String Acc = rs.getString("Acc");
-                String Pwd = rs.getString("Pwd");
-                // 判断密码是否正确
+                // 判断账号是否存在
                 if(acc.equals(Acc))
                 	return false;
             }
@@ -59,7 +58,6 @@ public class DBOperation {
             }
         }
 		return false;
-
     }
     
 	public boolean isCorrect(String acc, String pwd) {
@@ -166,8 +164,96 @@ public class DBOperation {
         }
 		return null;
 	}
+	
+	public boolean add(int id,String i,String j,String k,String l,double price,int number) {
+		java.sql.Connection conn = null;
+        java.sql.Statement stmt = null;
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            // 执行插入
+            stmt = conn.createStatement();
+            String sql;
+            sql = "INSERT INTO book VALUES("+id+","+i+","+j+","+k+","+l+","+price+","+number+");";
+            stmt.executeUpdate(sql);
+            // 完成后关闭
+            stmt.close();
+            conn.close();
+            return true;
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+		return false;
+	}
+	public boolean del(String isbn) {
+		java.sql.Connection conn = null;
+        java.sql.Statement stmt = null;
+        try{
+            // 注册 JDBC 驱动
+            Class.forName(JDBC_DRIVER);
+            // 打开链接
+            conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            // 执行插入
+            stmt = conn.createStatement();
+            String sql;
+            sql = "SELECT BookISBN from book";
+            ResultSet rs = stmt.executeQuery(sql);
+            // 展开结果集数据库
+            while(rs.next()){
+                // 通过字段检索
+                String ISBN = rs.getString("BookISBN");
+                // 判断密码是否正确
+                if(isbn.equals(ISBN)) {
+                	sql = "DELETE FROM book where BookISBN='"+isbn+"'";
+                    stmt.executeUpdate(sql);
+                    stmt.close();
+                    conn.close();
+                	return true;
+                }
+            }
+            // 完成后关闭
+            stmt.close();
+            conn.close();
+            return false;
+        }catch(SQLException se){
+            // 处理 JDBC 错误
+            se.printStackTrace();
+        }catch(Exception e){
+            // 处理 Class.forName 错误
+            e.printStackTrace();
+        }finally{
+            // 关闭资源
+            try{
+                if(stmt!=null) stmt.close();
+            }catch(SQLException se2){
+            }// 什么都不做
+            try{
+                if(conn!=null) conn.close();
+            }catch(SQLException se){
+                se.printStackTrace();
+            }
+        }
+		return false;
+	}
 	public static void main(String[] args) {
 		DBOperation rip = new DBOperation();
-		rip.getData();
+		rip.del("999");
 	}
 }
