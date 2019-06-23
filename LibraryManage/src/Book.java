@@ -1,53 +1,53 @@
 
 public class Book {
-	private String BookName;
+	private int BookID;
 	private String BookISBN;
-	private String BookPress;
+	private String BookName;
 	private String BookAuthor;
+	private String BookPress;
 	private double BookPrice;
 	private int BookNumber;
-	public String getBookName() {
-		return BookName;
+	
+	public void setBookAuthor(String bookAuthor) {
+		BookAuthor = bookAuthor;
 	}
-	public int getAmount() {
-		return BookNumber;
+	public void setBookID(int bookID) {
+		BookID = bookID;
+	}
+	public void setBookISBN(String bookISBN) {
+		BookISBN = bookISBN;
+	}
+	public void setBookName(String bookName) {
+		BookName = bookName;
+	}
+	public void setBookNumber(int bookNumber) {
+		BookNumber = bookNumber;
+	}
+	public void setBookPress(String bookPress) {
+		BookPress = bookPress;
+	}
+	public void setBookPrice(double bookPrice) {
+		BookPrice = bookPrice;
 	}
 	public String getBookAuthor() {
 		return BookAuthor;
 	}
-	public String getBookSN() {
+	public int getBookID() {
+		return BookID;
+	}
+	public String getBookISBN() {
 		return BookISBN;
 	}
-	public double getPrice() {
-		return BookPrice;
+	public String getBookName() {
+		return BookName;
 	}
-	public String getPublisher() {
+	public int getBookNumber() {
+		return BookNumber;
+	}
+	public String getBookPress() {
 		return BookPress;
 	}
-	public void setAmount(int BookNumber) {
-		this.BookNumber = BookNumber;
-	}
-	public void setBookName(String BookName) {
-		this.BookName = BookName;
-	}
-	public void setBookSN(String BookISBN) {
-		this.BookISBN = BookISBN;
-	}
-	public void setPrice(double BookPrice) {
-		this.BookPrice = BookPrice;
-	}
-	public void setBookAuthor(String bookAuthor) {
-		BookAuthor = bookAuthor;
-	}
-	public void setPublisher(String BookPress) {
-		this.BookPress = BookPress;
-	}
-	public Book(String name,String SN,String BookPress,String BookAuthor,double BookPrice,int BookNumber ) {
-		BookName = name;
-		BookISBN = SN;
-		this.BookAuthor = BookAuthor;
-		this.BookPress = BookPress;
-		this.BookPrice = BookPrice;
-		this.BookNumber = BookNumber;
+	public double getBookPrice() {
+		return BookPrice;
 	}
 }

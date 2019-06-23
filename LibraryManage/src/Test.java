@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -27,7 +28,7 @@ class gui{
 		JButton loginButton = new JButton("登陆");
 		JButton registerButton = new JButton("注册");
 		JTextArea accountArea = new JTextArea();
-		JTextArea passwordArea = new JTextArea();
+		JPasswordField passwordArea = new JPasswordField();
 
 		// 设置ui布局
 		cotainerLogin.setLayout(null);
@@ -135,6 +136,10 @@ class gui{
 		JPanel bgPanel = new JPanel();
 		JTable jTable = new JTable(o.getData(), colName);
 		JScrollPane dataPane = new JScrollPane(jTable);
+		JButton addButton = new JButton("添加图书记录");
+		JButton delButton = new JButton("删除图书记录");
+		JButton changeButton = new JButton("修改图书记录");
+		JButton findButton = new JButton("查找图书记录");
 		
 		jFrameManage.setLayout(null);
 		bgPanel.setLayout(null);
@@ -142,7 +147,7 @@ class gui{
 
 		jFrameManage.setBounds(300, 100, 700, 500);
 		bgPanel.setBounds(0, 0, 700, 500);
-		dataPanel.setBounds(50, 250, 550, 200);
+		dataPanel.setBounds(90, 250, 520, 200);
 		
 		jFrameManage.setBackground(new Color(40, 44, 52));
 		dataPanel.setBackground(new Color(40, 44, 52));
