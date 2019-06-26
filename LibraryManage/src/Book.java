@@ -1,6 +1,6 @@
 
 public class Book {
-	private int BookID;
+	private int BookID = 0;
 	private String BookISBN;
 	private String BookName;
 	private String BookAuthor;

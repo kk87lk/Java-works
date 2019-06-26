@@ -176,7 +176,7 @@ public class DBOperation {
             // 执行插入
             stmt = conn.createStatement();
             String sql;
-            sql = "INSERT INTO book VALUES("+id+","+i+","+j+","+k+","+l+","+price+","+number+");";
+            sql = "INSERT INTO book VALUES("+id+",'"+i+"','"+j+"','"+k+"','"+l+"',"+price+","+number+");";
             stmt.executeUpdate(sql);
             // 完成后关闭
             stmt.close();
@@ -370,13 +370,13 @@ public class DBOperation {
             stmt = conn.createStatement();
             String sql;
             sql = "UPDATE book SET "
-            		+ "BookID='"+CB.getBookID()+"',"
+            		+ "BookID="+CB.getBookID()+","
             		+ "BookISBN='"+CB.getBookISBN()+"',"
             		+ "BookName='"+CB.getBookName()+"',"
             		+ "BookAuthor='"+CB.getBookAuthor()+"',"
             		+ "BookPress='"+CB.getBookPress()+"',"
-            		+ "BookPrice='"+CB.getBookPrice()+"',"
-            		+ "BookNumber='"+CB.getBookNumber()+"'" +
+            		+ "BookPrice="+CB.getBookPrice()+","
+            		+ "BookNumber="+CB.getBookNumber()+"" +
             		"WHERE BookISBN='"+isbn+"'";
             stmt.executeUpdate(sql);
             // 完成后关闭
