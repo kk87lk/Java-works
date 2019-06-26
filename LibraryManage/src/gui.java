@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -16,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.JTableHeader;
 
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TabPane;
@@ -370,7 +372,7 @@ class gui{
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						Book book = new Book();
-						o.findName(nArea.getText());
+						book = o.findName(nArea.getText());
 						if(book.getBookID()==0) {
 							JDialog warning = new JDialog();
 							warning.setBounds(500, 150, 150, 50);
@@ -382,10 +384,72 @@ class gui{
 							warning.setVisible(true);
 						}else {
 							JDialog displayDialog = new JDialog();
+							Object[][] findData = new Object[2][7];
+							JTable findTable = new JTable(findData, colName);
+							JScrollPane findPane = new JScrollPane(findTable);
+							JLabel titleLabel = new JLabel("查询结果");
+							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
+							titleLabel.setForeground(new Color(171, 178, 191));
 							displayDialog.setLayout(null);
-							displayDialog.setBounds(450, 100, 550, 200);
+							displayDialog.setBounds(400, 150, 530, 200);
 							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
-							
+							findPane.setSize(500,60);
+							findData[0][0] = book.getBookID();
+							findData[0][1] = book.getBookISBN();
+							findData[0][2] = book.getBookName();
+							findData[0][3] = book.getBookAuthor();
+							findData[0][4] = book.getBookPress();
+							findData[0][5] = book.getBookPrice();
+							findData[0][6] = book.getBookNumber();
+							titleLabel.setBounds(210, 40, 100, 20);
+							findTable.setBounds(0,0,550,60);
+							findPane.setBounds(0,80,550,60);
+							displayDialog.add(titleLabel);
+							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+							displayDialog.add(findPane);
+							displayDialog.setVisible(true);
+						}
+					}
+				});
+				iconfirm.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						Book book = new Book();
+						book = o.findISBN(nArea.getText());
+						if(book.getBookID()==0) {
+							JDialog warning = new JDialog();
+							warning.setBounds(500, 150, 150, 50);
+							JLabel warnLabel = new JLabel("未查找到此书!");
+							warning.getContentPane().setBackground(new Color(40, 44, 52));
+							warnLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
+							warnLabel.setForeground(new Color(171, 178, 191));
+							warning.add(warnLabel);
+							warning.setVisible(true);
+						}else {
+							JDialog displayDialog = new JDialog();
+							Object[][] findData = new Object[2][7];
+							JTable findTable = new JTable(findData, colName);
+							JScrollPane findPane = new JScrollPane(findTable);
+							JLabel titleLabel = new JLabel("查询结果");
+							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
+							titleLabel.setForeground(new Color(171, 178, 191));
+							displayDialog.setLayout(null);
+							displayDialog.setBounds(400, 150, 530, 200);
+							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
+							findPane.setSize(500,60);
+							findData[0][0] = book.getBookID();
+							findData[0][1] = book.getBookISBN();
+							findData[0][2] = book.getBookName();
+							findData[0][3] = book.getBookAuthor();
+							findData[0][4] = book.getBookPress();
+							findData[0][5] = book.getBookPrice();
+							findData[0][6] = book.getBookNumber();
+							titleLabel.setBounds(210, 40, 100, 20);
+							findTable.setBounds(0,0,550,60);
+							findPane.setBounds(0,80,550,60);
+							displayDialog.add(titleLabel);
+							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+							displayDialog.add(findPane);
 							displayDialog.setVisible(true);
 						}
 					}
@@ -412,6 +476,156 @@ class gui{
 		changeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				JDialog findDialog = new JDialog(jFrameManage);
+				JTabbedPane tabbedPane = new JTabbedPane();
+				JPanel findnamePanel = new JPanel();
+				JPanel findisbnPanel = new JPanel();
+				JLabel nLabel = new JLabel("输入需修改书的书名");
+				JLabel iLabel = new JLabel("输入需修改书的ISBN");
+				JTextArea nArea = new JTextArea();
+				JTextArea iArea = new JTextArea();
+				JButton nconfirm = new JButton("确认");
+				JButton ncancel = new JButton("取消");
+				JButton iconfirm = new JButton("确认");
+				JButton icancel = new JButton("取消");
+				
+				findnamePanel.setLayout(null);
+				findisbnPanel.setLayout(null);
+				
+				nLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
+				nLabel.setForeground(new Color(171, 178, 191));
+				iLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
+				iLabel.setForeground(new Color(171, 178, 191));
+				
+				findDialog.setBounds(450, 100, 300, 200);
+				findnamePanel.setBounds(0,0,300,180);
+				findisbnPanel.setBounds(0,0,300,180);
+				nLabel.setBounds(20,30,100,20);
+				nArea.setBounds(170,30,100,20);
+				iLabel.setBounds(20,30,120,20);
+				iArea.setBounds(170,30,100,20);
+				nconfirm.setBounds(60,90,70,20);
+				ncancel.setBounds(150,90,70,20);
+				iconfirm.setBounds(60,90,70,20);
+				icancel.setBounds(150,90,70,20);
+				
+				findnamePanel.setBackground(new Color(40, 44, 52));
+				findisbnPanel.setBackground(new Color(40, 44, 52));
+				
+				tabbedPane.add("按书名查找",findnamePanel);
+				tabbedPane.add("按ISBN查找",findisbnPanel);
+				findDialog.add(tabbedPane);
+				findnamePanel.add(nLabel);
+				findnamePanel.add(nArea);
+				findnamePanel.add(nconfirm);
+				findnamePanel.add(ncancel);
+				findisbnPanel.add(iLabel);
+				findisbnPanel.add(iArea);
+				findisbnPanel.add(iconfirm);
+				findisbnPanel.add(icancel);
+
+				nconfirm.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						Book book = new Book();
+						book = o.findName(nArea.getText());
+						if(book.getBookID()==0) {
+							JDialog warning = new JDialog();
+							warning.setBounds(500, 150, 150, 50);
+							JLabel warnLabel = new JLabel("未查找到此书!");
+							warning.getContentPane().setBackground(new Color(40, 44, 52));
+							warnLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
+							warnLabel.setForeground(new Color(171, 178, 191));
+							warning.add(warnLabel);
+							warning.setVisible(true);
+						}else {
+							JDialog displayDialog = new JDialog();
+							Object[][] findData = new Object[2][7];
+							JTable findTable = new JTable(findData, colName);
+							JScrollPane findPane = new JScrollPane(findTable);
+							JLabel titleLabel = new JLabel("查询结果");
+							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
+							titleLabel.setForeground(new Color(171, 178, 191));
+							displayDialog.setLayout(null);
+							displayDialog.setBounds(400, 150, 530, 200);
+							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
+							findPane.setSize(500,60);
+							findData[0][0] = book.getBookID();
+							findData[0][1] = book.getBookISBN();
+							findData[0][2] = book.getBookName();
+							findData[0][3] = book.getBookAuthor();
+							findData[0][4] = book.getBookPress();
+							findData[0][5] = book.getBookPrice();
+							findData[0][6] = book.getBookNumber();
+							titleLabel.setBounds(210, 40, 100, 20);
+							findTable.setBounds(0,0,550,60);
+							findPane.setBounds(0,80,550,60);
+							displayDialog.add(titleLabel);
+							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+							displayDialog.add(findPane);
+							displayDialog.setVisible(true);
+						}
+					}
+				});
+				iconfirm.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						Book book = new Book();
+						book = o.findISBN(nArea.getText());
+						if(book.getBookID()==0) {
+							JDialog warning = new JDialog();
+							warning.setBounds(500, 150, 150, 50);
+							JLabel warnLabel = new JLabel("未查找到此书!");
+							warning.getContentPane().setBackground(new Color(40, 44, 52));
+							warnLabel.setFont(new java.awt.Font("微软雅黑", 1, 14));
+							warnLabel.setForeground(new Color(171, 178, 191));
+							warning.add(warnLabel);
+							warning.setVisible(true);
+						}else {
+							JDialog displayDialog = new JDialog();
+							Object[][] findData = new Object[2][7];
+							JTable findTable = new JTable(findData, colName);
+							JScrollPane findPane = new JScrollPane(findTable);
+							JLabel titleLabel = new JLabel("查询结果");
+							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
+							titleLabel.setForeground(new Color(171, 178, 191));
+							displayDialog.setLayout(null);
+							displayDialog.setBounds(400, 150, 530, 200);
+							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
+							findPane.setSize(500,60);
+							findData[0][0] = book.getBookID();
+							findData[0][1] = book.getBookISBN();
+							findData[0][2] = book.getBookName();
+							findData[0][3] = book.getBookAuthor();
+							findData[0][4] = book.getBookPress();
+							findData[0][5] = book.getBookPrice();
+							findData[0][6] = book.getBookNumber();
+							titleLabel.setBounds(210, 40, 100, 20);
+							findTable.setBounds(0,0,550,60);
+							findPane.setBounds(0,80,550,60);
+							displayDialog.add(titleLabel);
+							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+							displayDialog.add(findPane);
+							displayDialog.setVisible(true);
+						}
+					}
+				});
+				
+				ncancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						findDialog.dispose();
+					}
+				});
+				icancel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						findDialog.dispose();
+					}
+				});
+				
+				findDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+				findDialog.setVisible(true);
 				
 			}
 		});
