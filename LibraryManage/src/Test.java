@@ -16,7 +16,7 @@ public class Test {
 		}
 
 		gui gui = new gui();
-		gui.managePanel();
+		gui.loginPanel();
 
 	}
 

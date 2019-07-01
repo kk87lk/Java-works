@@ -1,10 +1,7 @@
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -15,12 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.JTableHeader;
-
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TabPane;
 
 
 class gui{
@@ -415,7 +406,7 @@ class gui{
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						Book book = new Book();
-						book = o.findISBN(nArea.getText());
+						book = o.findISBN(iArea.getText());
 						if(book.getBookID()==0) {
 							JDialog warning = new JDialog();
 							warning.setBounds(500, 150, 150, 50);
@@ -480,8 +471,8 @@ class gui{
 				JTabbedPane tabbedPane = new JTabbedPane();
 				JPanel findnamePanel = new JPanel();
 				JPanel findisbnPanel = new JPanel();
-				JLabel nLabel = new JLabel("输入需修改书的书名");
-				JLabel iLabel = new JLabel("输入需修改书的ISBN");
+				JLabel nLabel = new JLabel("需修改书的书名");
+				JLabel iLabel = new JLabel("需修改书的ISBN");
 				JTextArea nArea = new JTextArea();
 				JTextArea iArea = new JTextArea();
 				JButton nconfirm = new JButton("确认");
@@ -527,8 +518,7 @@ class gui{
 				nconfirm.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						Book book = new Book();
-						book = o.findName(nArea.getText());
+						final Book book = o.findName(nArea.getText());
 						if(book.getBookID()==0) {
 							JDialog warning = new JDialog();
 							warning.setBounds(500, 150, 150, 50);
@@ -539,39 +529,129 @@ class gui{
 							warning.add(warnLabel);
 							warning.setVisible(true);
 						}else {
-							JDialog displayDialog = new JDialog();
-							Object[][] findData = new Object[2][7];
-							JTable findTable = new JTable(findData, colName);
-							JScrollPane findPane = new JScrollPane(findTable);
-							JLabel titleLabel = new JLabel("查询结果");
-							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
-							titleLabel.setForeground(new Color(171, 178, 191));
-							displayDialog.setLayout(null);
-							displayDialog.setBounds(400, 150, 530, 200);
-							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
-							findPane.setSize(500,60);
-							findData[0][0] = book.getBookID();
-							findData[0][1] = book.getBookISBN();
-							findData[0][2] = book.getBookName();
-							findData[0][3] = book.getBookAuthor();
-							findData[0][4] = book.getBookPress();
-							findData[0][5] = book.getBookPrice();
-							findData[0][6] = book.getBookNumber();
-							titleLabel.setBounds(210, 40, 100, 20);
-							findTable.setBounds(0,0,550,60);
-							findPane.setBounds(0,80,550,60);
-							displayDialog.add(titleLabel);
-							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-							displayDialog.add(findPane);
-							displayDialog.setVisible(true);
+							JDialog changeDialog = new JDialog(findDialog,"修改数据(留空为无改动)");
+							JLabel bookidJLabel = new JLabel("图书编号");
+							JLabel bookisbnJLabel = new JLabel("ISBN");
+							JLabel booknameJLabel = new JLabel("名称");
+							JLabel bookauthorJLabel = new JLabel("作者");
+							JLabel bookpressJLabel = new JLabel("出版社");
+							JLabel bookpriceJLabel = new JLabel("价格");
+							JLabel booknumberJLabel = new JLabel("库存数");
+							JTextArea bookidArea = new JTextArea();
+							JTextArea bookisbnArea = new JTextArea();
+							JTextArea booknameArea = new JTextArea();
+							JTextArea bookauthorArea = new JTextArea();
+							JTextArea bookpressArea = new JTextArea();
+							JTextArea bookpriceArea = new JTextArea();
+							JTextArea booknumberArea = new JTextArea();
+							JButton confirm = new JButton("确认");
+							JButton cancel = new JButton("取消");
+							
+							changeDialog.setLayout(null);
+							
+							changeDialog.getContentPane().setBackground(new Color(40, 44, 52));
+							bookidJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookidJLabel.setForeground(new Color(171, 178, 191));
+							bookisbnJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookisbnJLabel.setForeground(new Color(171, 178, 191));
+							booknameJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							booknameJLabel.setForeground(new Color(171, 178, 191));
+							bookauthorJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookauthorJLabel.setForeground(new Color(171, 178, 191));
+							bookpressJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookpressJLabel.setForeground(new Color(171, 178, 191));
+							bookpriceJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookpriceJLabel.setForeground(new Color(171, 178, 191));
+							booknumberJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							booknumberJLabel.setForeground(new Color(171, 178, 191));
+
+							changeDialog.setBounds(450, 100, 300, 500);
+							bookidJLabel.setBounds(50, 50, 75, 25);
+							bookidArea.setBounds(150, 50, 75, 25);
+							bookisbnJLabel.setBounds(50, 100, 75, 25);
+							bookisbnArea.setBounds(150, 100, 75, 25);
+							booknameJLabel.setBounds(50, 150, 75, 25);
+							booknameArea.setBounds(150, 150, 75, 25);
+							bookauthorJLabel.setBounds(50, 200, 75, 25);
+							bookauthorArea.setBounds(150, 200, 75, 25);
+							bookpressJLabel.setBounds(50, 250, 75, 25);
+							bookpressArea.setBounds(150, 250, 75, 25);
+							bookpriceJLabel.setBounds(50, 300, 75, 25);
+							bookpriceArea.setBounds(150, 300, 75, 25);
+							booknumberJLabel.setBounds(50, 350, 75, 25);
+							booknumberArea.setBounds(150, 350, 75, 25);
+							confirm.setBounds(50, 400, 75, 25);
+							cancel.setBounds(175, 400, 75, 25);
+							
+							changeDialog.add(bookidJLabel);
+							changeDialog.add(bookidArea);
+							changeDialog.add(bookisbnJLabel);
+							changeDialog.add(bookisbnArea);
+							changeDialog.add(booknameJLabel);
+							changeDialog.add(booknameArea);
+							changeDialog.add(bookauthorJLabel);
+							changeDialog.add(bookauthorArea);
+							changeDialog.add(bookpressJLabel);
+							changeDialog.add(bookpressArea);
+							changeDialog.add(bookpriceJLabel);
+							changeDialog.add(bookpriceArea);
+							changeDialog.add(booknumberJLabel);
+							changeDialog.add(booknumberArea);
+							changeDialog.add(confirm);
+							changeDialog.add(cancel);
+							
+							confirm.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									Book tepBook = new Book();
+									if(bookidArea.getText().equals(""))
+										tepBook.setBookID(book.getBookID());
+									else
+										tepBook.setBookID(Integer.valueOf(bookidArea.getText()));
+									if(bookisbnArea.getText().equals(""))
+										tepBook.setBookISBN(book.getBookISBN());
+									else
+										tepBook.setBookISBN(bookisbnArea.getText());
+									if(booknameArea.getText().equals(""))
+										tepBook.setBookName(book.getBookName());
+									else
+										tepBook.setBookName(booknameArea.getText());
+									if(bookauthorArea.getText().equals("")) 
+										tepBook.setBookAuthor(book.getBookAuthor());
+									else
+										tepBook.setBookAuthor(bookauthorArea.getText());
+									if(bookpressArea.getText().equals(""))
+										tepBook.setBookPress(book.getBookPress());
+									else
+										tepBook.setBookPress(bookpressArea.getText());
+									if(bookpriceArea.getText().equals(""))
+										tepBook.setBookPrice(book.getBookPrice());
+									else
+										tepBook.setBookPrice(Double.valueOf(booknumberArea.getText()));
+									if(booknumberArea.getText().equals(""))
+										tepBook.setBookNumber(book.getBookID());
+									else
+										tepBook.setBookNumber(Integer.valueOf(booknumberArea.getText()));
+									o.changeBook(book.getBookISBN(), tepBook);
+									changeDialog.dispose();
+								}
+							});
+							cancel.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									changeDialog.dispose();
+								}
+							});
+							changeDialog.setVisible(true);
 						}
 					}
+
+
 				});
 				iconfirm.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						Book book = new Book();
-						book = o.findISBN(nArea.getText());
+						final Book book = o.findISBN(iArea.getText());
 						if(book.getBookID()==0) {
 							JDialog warning = new JDialog();
 							warning.setBounds(500, 150, 150, 50);
@@ -582,31 +662,120 @@ class gui{
 							warning.add(warnLabel);
 							warning.setVisible(true);
 						}else {
-							JDialog displayDialog = new JDialog();
-							Object[][] findData = new Object[2][7];
-							JTable findTable = new JTable(findData, colName);
-							JScrollPane findPane = new JScrollPane(findTable);
-							JLabel titleLabel = new JLabel("查询结果");
-							titleLabel.setFont(new java.awt.Font("微软雅黑", 1, 20));
-							titleLabel.setForeground(new Color(171, 178, 191));
-							displayDialog.setLayout(null);
-							displayDialog.setBounds(400, 150, 530, 200);
-							displayDialog.getContentPane().setBackground(new Color(40, 44, 52));
-							findPane.setSize(500,60);
-							findData[0][0] = book.getBookID();
-							findData[0][1] = book.getBookISBN();
-							findData[0][2] = book.getBookName();
-							findData[0][3] = book.getBookAuthor();
-							findData[0][4] = book.getBookPress();
-							findData[0][5] = book.getBookPrice();
-							findData[0][6] = book.getBookNumber();
-							titleLabel.setBounds(210, 40, 100, 20);
-							findTable.setBounds(0,0,550,60);
-							findPane.setBounds(0,80,550,60);
-							displayDialog.add(titleLabel);
-							findTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-							displayDialog.add(findPane);
-							displayDialog.setVisible(true);
+							JDialog changeDialog = new JDialog(findDialog,"修改数据(留空为无改动)");
+							JLabel bookidJLabel = new JLabel("图书编号");
+							JLabel bookisbnJLabel = new JLabel("ISBN");
+							JLabel booknameJLabel = new JLabel("名称");
+							JLabel bookauthorJLabel = new JLabel("作者");
+							JLabel bookpressJLabel = new JLabel("出版社");
+							JLabel bookpriceJLabel = new JLabel("价格");
+							JLabel booknumberJLabel = new JLabel("库存数");
+							JTextArea bookidArea = new JTextArea();
+							JTextArea bookisbnArea = new JTextArea();
+							JTextArea booknameArea = new JTextArea();
+							JTextArea bookauthorArea = new JTextArea();
+							JTextArea bookpressArea = new JTextArea();
+							JTextArea bookpriceArea = new JTextArea();
+							JTextArea booknumberArea = new JTextArea();
+							JButton confirm = new JButton("确认");
+							JButton cancel = new JButton("取消");
+							
+							changeDialog.setLayout(null);
+							
+							changeDialog.getContentPane().setBackground(new Color(40, 44, 52));
+							bookidJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookidJLabel.setForeground(new Color(171, 178, 191));
+							bookisbnJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookisbnJLabel.setForeground(new Color(171, 178, 191));
+							booknameJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							booknameJLabel.setForeground(new Color(171, 178, 191));
+							bookauthorJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookauthorJLabel.setForeground(new Color(171, 178, 191));
+							bookpressJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookpressJLabel.setForeground(new Color(171, 178, 191));
+							bookpriceJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							bookpriceJLabel.setForeground(new Color(171, 178, 191));
+							booknumberJLabel.setFont(new java.awt.Font("微软雅黑", 1, 15));
+							booknumberJLabel.setForeground(new Color(171, 178, 191));
+
+							changeDialog.setBounds(450, 100, 300, 500);
+							bookidJLabel.setBounds(50, 50, 75, 25);
+							bookidArea.setBounds(150, 50, 75, 25);
+							bookisbnJLabel.setBounds(50, 100, 75, 25);
+							bookisbnArea.setBounds(150, 100, 75, 25);
+							booknameJLabel.setBounds(50, 150, 75, 25);
+							booknameArea.setBounds(150, 150, 75, 25);
+							bookauthorJLabel.setBounds(50, 200, 75, 25);
+							bookauthorArea.setBounds(150, 200, 75, 25);
+							bookpressJLabel.setBounds(50, 250, 75, 25);
+							bookpressArea.setBounds(150, 250, 75, 25);
+							bookpriceJLabel.setBounds(50, 300, 75, 25);
+							bookpriceArea.setBounds(150, 300, 75, 25);
+							booknumberJLabel.setBounds(50, 350, 75, 25);
+							booknumberArea.setBounds(150, 350, 75, 25);
+							confirm.setBounds(50, 400, 75, 25);
+							cancel.setBounds(175, 400, 75, 25);
+							
+							changeDialog.add(bookidJLabel);
+							changeDialog.add(bookidArea);
+							changeDialog.add(bookisbnJLabel);
+							changeDialog.add(bookisbnArea);
+							changeDialog.add(booknameJLabel);
+							changeDialog.add(booknameArea);
+							changeDialog.add(bookauthorJLabel);
+							changeDialog.add(bookauthorArea);
+							changeDialog.add(bookpressJLabel);
+							changeDialog.add(bookpressArea);
+							changeDialog.add(bookpriceJLabel);
+							changeDialog.add(bookpriceArea);
+							changeDialog.add(booknumberJLabel);
+							changeDialog.add(booknumberArea);
+							changeDialog.add(confirm);
+							changeDialog.add(cancel);
+							
+							confirm.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									Book tepBook = new Book();
+									if(bookidArea.getText().equals(""))
+										tepBook.setBookID(book.getBookID());
+									else
+										tepBook.setBookID(Integer.valueOf(bookidArea.getText()));
+									if(bookisbnArea.getText().equals(""))
+										tepBook.setBookISBN(book.getBookISBN());
+									else
+										tepBook.setBookISBN(bookisbnArea.getText());
+									if(booknameArea.getText().equals(""))
+										tepBook.setBookName(book.getBookName());
+									else
+										tepBook.setBookName(booknameArea.getText());
+									if(bookauthorArea.getText().equals("")) 
+										tepBook.setBookAuthor(book.getBookAuthor());
+									else
+										tepBook.setBookAuthor(bookauthorArea.getText());
+									if(bookpressArea.getText().equals(""))
+										tepBook.setBookPress(book.getBookPress());
+									else
+										tepBook.setBookPress(bookpressArea.getText());
+									if(bookpriceArea.getText().equals(""))
+										tepBook.setBookPrice(book.getBookPrice());
+									else
+										tepBook.setBookPrice(Double.valueOf(booknumberArea.getText()));
+									if(booknumberArea.getText().equals(""))
+										tepBook.setBookNumber(book.getBookID());
+									else
+										tepBook.setBookNumber(Integer.valueOf(booknumberArea.getText()));
+									o.changeBook(book.getBookISBN(), tepBook);
+									changeDialog.dispose();
+								}
+							});
+							cancel.addActionListener(new ActionListener() {
+								@Override
+								public void actionPerformed(ActionEvent arg0) {
+									changeDialog.dispose();
+								}
+							});
+							changeDialog.setVisible(true);
 						}
 					}
 				});

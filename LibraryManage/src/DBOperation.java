@@ -278,7 +278,6 @@ public class DBOperation {
             	tep.setBookPress(rs.getString("BookPress"));
             	tep.setBookPrice(Double.valueOf(rs.getDouble("BookPrice")));
             	tep.setBookNumber(Integer.valueOf(rs.getInt("BookNumber")));
-            	System.out.print(tep.getBookName());
             }
             // 完成后关闭
             rs.close();
@@ -330,7 +329,6 @@ public class DBOperation {
             	tep.setBookPress(rs.getString("BookPress"));
             	tep.setBookPrice(Double.valueOf(rs.getDouble("BookPrice")));
             	tep.setBookNumber(Integer.valueOf(rs.getInt("BookNumber")));
-            	System.out.print(tep.getBookName());
             }
             // 完成后关闭
             rs.close();
@@ -369,15 +367,7 @@ public class DBOperation {
             // 执行插入
             stmt = conn.createStatement();
             String sql;
-            sql = "UPDATE book SET "
-            		+ "BookID="+CB.getBookID()+","
-            		+ "BookISBN='"+CB.getBookISBN()+"',"
-            		+ "BookName='"+CB.getBookName()+"',"
-            		+ "BookAuthor='"+CB.getBookAuthor()+"',"
-            		+ "BookPress='"+CB.getBookPress()+"',"
-            		+ "BookPrice="+CB.getBookPrice()+","
-            		+ "BookNumber="+CB.getBookNumber()+"" +
-            		"WHERE BookISBN='"+isbn+"'";
+            sql = "UPDATE book SET BookID="+CB.getBookID()+", BookISBN='"+CB.getBookISBN()+"', BookName='"+CB.getBookName()+"', BookAuthor='"+CB.getBookAuthor()+"', BookPress='"+CB.getBookPress()+"', BookPrice="+CB.getBookPrice()+", BookNumber="+CB.getBookNumber()+" WHERE BookISBN='"+isbn+"'";;
             stmt.executeUpdate(sql);
             // 完成后关闭
             stmt.close();
@@ -411,7 +401,7 @@ public class DBOperation {
 		kind.setBookID(4);
 		kind.setBookISBN("978-7-5680-1139-6");
 		kind.setBookName("《巴黎伦敦落魄记》");
-		kind.setBookAuthor("（英）奥威尔");
+		kind.setBookAuthor("奥威尔");
 		kind.setBookPress("奥威尔作品出版社");
 		kind.setBookPrice(42.8);
 		kind.setBookNumber(22);
