@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by 文辉 on 2017/7/26.
+ * Created by kk87lk.
  */
 @Controller
 public class ChatController {
